@@ -1,0 +1,43 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+activate ControlleurTelecommandeAjouterEntrer
+
+ControlleurTelecommandeAjouterEntrer -> "telecommande: Telecommande": executeCommand(Commande)
+activate "telecommande: Telecommande"
+"telecommande: Telecommande" -> "comm: AjouterCommande": execute()
+activate "comm: AjouterCommande"
+"comm: AjouterCommande" -> "c: ControlleurCircuit": charger(InstructionSet)
+
+
+activate "c: ControlleurCircuit"
+"c: ControlleurCircuit" -> "const:ConstructeurElements": construireElem(String Id, TypeElement);
+activate "const:ConstructeurElements"
+"c: ControlleurCircuit" <-- "const:ConstructeurElements": Element
+deactivate "const:ConstructeurElements"
+"c: ControlleurCircuit" -> "inv:InverseurInstruction": inverserAjouter(Element)
+activate "inv:InverseurInstruction"
+"c: ControlleurCircuit" <-- "inv:InverseurInstruction": s1:InstructionSet
+deactivate "inv:InverseurInstruction"
+"c: ControlleurCircuit" -> "ed:EditeurCircuit": ajouter(e, HashMap<String, Element>)
+activate "ed:EditeurCircuit"
+"c: ControlleurCircuit" <-- "ed:EditeurCircuit"
+deactivate "ed:EditeurCircuit"
+"comm: AjouterCommande" <-- "c: ControlleurCircuit": s1:InstructionSet
+deactivate "c: ControlleurCircuit"
+
+
+"comm: AjouterCommande" -> "comm: AjouterCommande": Sauvegarde()
+"comm: AjouterCommande" -> "comm: AjouterCommande": Historique()
+"telecommande: Telecommande" <-- "comm: AjouterCommande": True:Boolean
+deactivate "comm: AjouterCommande"
+
+ControlleurTelecommandeAjouterEntrer <-- "telecommande: Telecommande": True:Boolean
+deactivate ControlleurTelecommandeAjouterEntrer
+
+
+deactivate ControlleurTelecommandeAjouterEntrer
+
+
+@enduml

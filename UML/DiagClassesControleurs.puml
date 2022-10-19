@@ -1,0 +1,247 @@
+@startuml
+title Controlleur
+center footer project #1 - class diagram
+
+
+
+
+class Application{
+  + fermeture() : void
+}
+
+class ControlleurApplication {
+}
+
+class ControlleurChargement {
+ + actionPerformed() : void
+ + chargerCircuit() : void
+ + ajouterCircuit(instructionSet : InstructionSet) : void
+ + chargerUnFichier() : int
+}
+
+class ControlleurExporterDessin {
+ + actionPerformed() : void
+ + exporterDessin() : void
+ + genererImage() : BufferedImage
+ + ajouterExtension() : File
+}
+
+class ControlleurFermeture {
+ + actionPerformed() : void
+ + fermer() : void
+ + demanderAQuitter() : int
+}
+
+class ControlleurNouveauFichier {
+ + actionPerformed() : void
+ + ouvrirNouveauFichier() : void
+ + demanderUnNouveauFichier() : int
+}
+
+class ControlleurSauvegarder {
+ + actionPerformed() : void
+ + enregistrer() : int
+ + ajouterExtension() : File
+ + optionChoisi() : int
+}
+
+class ControlleurTableVerite {
+ + actionPerformed() : void
+ + exporterTableVerite() : void
+ + ajouterExtension() : File
+}
+
+
+class Board {
+ + create() : void
+ + getControlleurCircuit() : ControlleurCircuit
+ + getTelecommande() : Telecommande
+ + getTableVerite() : TableVerite
+ + getFenetreAffichage() : FenetreAffichage
+ + getMenu() : Menu
+ + getVueFenetreHistorique() : VueFenetreHistorique
+}
+
+class Telecommande {
+}
+
+
+class Menu{
++ JMenuItem sauvegarderCircuitButton;
++ JMenuItem quitterButton;
++ JMenuItem nouveauCircuitButton;
++ JMenuItem ouvrirCircuitButton;
++ JMenuItem exporterCircuit;
++ JMenuItem exporterTableVerite;
++ JMenuItem annulerOperationButton;
++ JMenuItem annulerToutesOperationsButton;
++ JMenuItem retablirOperationButton;
++ JMenuItem afficherOperation;
+ + ajouterListener(board : Board) : void
+}
+
+class EcrireFichier{
+  + {static} sauvegarder(is : InstructionSet, fichierDeSauvegarde : File) : String
+}
+
+class EcrireTableVerite{
+  + {static} sauvegarder(enteteTable : ArrayList<String>, donneeTableVeriteInterface : ArrayList<ArrayList<String>>, fichierDeSauvegarde : File) : String
+  + {static} composerTable(enteteTable : ArrayList<String>, donneeTableVeriteInterface : ArrayList<ArrayList<String>>) : String
+}
+
+class LectureFichier{
+  + {static} lire(fichierAOuvrir : File) : InstructionSet
+}
+
+class ControlleurAfficherUndoRedo {
++ actionPerformed(arg0 : ActionEvent)
+}
+
+class ControlleurRedo {
++ actionPerformed(arg0 : ActionEvent)
++ redo()
+}
+
+class ControlleurTelecommande {
+# commandeFaite(comm : Commande, message : String)
+}
+
+class ControlleurTelecommandeAjouterEntrer {
++ actionPerformed(arg0 : ActionEvent)
++ ajouterEntre()
++ ajouterEntreDepart()
+}
+class ControlleurTelecommandeAjouterPorte {
++ actionPerformed(arg0 : ActionEvent)
++ ajouterPorte()
+
+}
+class ControlleurTelecommandeAjouterSortie {
++ actionPerformed(arg0 : ActionEvent)
++ ajouterSortie()
++ ajouterSortieDepart()
+}
+
+class ControlleurTelecommandeAnnuler {
++ actionPerformed(arg0 : ActionEvent)
++ annuler()
+}
+
+class ControlleurTelecommandeDefinir {
++ actionPerformed(arg0 : ActionEvent)
++ ajouterDefinition()
++ ajouterDefinitionTest(inst : Instruction)
++ ajouterDefinitionCacherDepart(inst : Instruction)
+- getTypeElement(element : char) : TypeElement
+}
+
+class ControlleurTelecommandeRelierElement {
++ actionPerformed(arg0 : ActionEvent)
++ relier()
+- getTypeElement(element : char) : TypeElement
+}
+
+class ControlleurTelecommandeSuppimerElement {
++ actionPerformed(arg0 : ActionEvent)
++ supprimerElement()
+- getTypeElement(element : char) : TypeElement
+}
+
+class ControlleurUndo {
++ actionPerformed(arg0 : ActionEvent)
++ undo()
+}
+class InstructionSet {}
+class GestionnaireHistorique {}
+class Commande {}
+
+enum TypeElement{}
+
+enum TelecommandeEtatEnum{}
+
+enum MessageTelecommandeEnum{}
+
+enum InstructionEnum{}
+
+Board -- "1" Menu
+Board -- "1" Telecommande
+Application -- "1" Board
+
+ControlleurApplication -u- "1" Board
+ControlleurApplication  *- Menu
+ControlleurApplication -- "1" Telecommande
+
+ControlleurSauvegarder -u-|> ControlleurApplication
+ControlleurTableVerite -u-|> ControlleurSauvegarder
+ControlleurNouveauFichier -u-|> ControlleurSauvegarder
+ControlleurFermeture -u-|> ControlleurSauvegarder
+ControlleurExporterDessin -u-|> ControlleurSauvegarder
+ControlleurChargement -u-|> ControlleurSauvegarder
+ControlleurChargement -d- "1" LectureFichier
+ControlleurTableVerite -d- "1" EcrireTableVerite
+ControlleurSauvegarder -d- "1" EcrireFichier
+
+ControlleurAfficherUndoRedo --|> ControlleurTelecommande
+ControlleurRedo --|> ControlleurTelecommande
+ControlleurTelecommandeAjouterEntrer --|> ControlleurTelecommande
+ControlleurTelecommandeAjouterPorte --|> ControlleurTelecommande
+ControlleurTelecommandeAjouterSortie --|> ControlleurTelecommande
+ControlleurTelecommandeAnnuler --|> ControlleurTelecommande
+ControlleurTelecommandeDefinir --|> ControlleurTelecommande
+ControlleurTelecommandeRelierElement --|> ControlleurTelecommande
+ControlleurTelecommandeSuppimerElement --|> ControlleurTelecommande
+ControlleurUndo --|> ControlleurTelecommande
+
+ControlleurAfficherUndoRedo -- "1" Board
+ControlleurRedo -- "1" GestionnaireHistorique
+ControlleurRedo -- "1" TelecommandeEtatEnum
+
+ControlleurTelecommande -- "1" Telecommande
+ControlleurTelecommande -- "*" InstructionSet
+ControlleurTelecommande -- "1" GestionnaireHistorique
+ControlleurTelecommande -- "1" Commande
+ControlleurTelecommande -- "1" TelecommandeEtatEnum
+
+ControlleurTelecommandeAjouterEntrer -- "1" ControlleurTelecommandeDefinir
+ControlleurTelecommandeAjouterEntrer -- "1" TelecommandeEtatEnum
+ControlleurTelecommandeAjouterEntrer -- "1" MessageTelecommandeEnum
+ControlleurTelecommandeAjouterEntrer -- "1" InstructionEnum
+
+ControlleurTelecommandeAjouterPorte -- "1" GestionnaireHistorique
+ControlleurTelecommandeAjouterPorte -- "1" TypeElement
+ControlleurTelecommandeAjouterPorte -- "1" MessageTelecommandeEnum
+ControlleurTelecommandeAjouterPorte -- "1" InstructionEnum
+
+ControlleurTelecommandeAjouterSortie -- "1" GestionnaireHistorique
+ControlleurTelecommandeAjouterSortie -- "1" TelecommandeEtatEnum
+ControlleurTelecommandeAjouterSortie -- "1" MessageTelecommandeEnum
+ControlleurTelecommandeAjouterSortie -- "1" InstructionEnum
+
+ControlleurTelecommandeAnnuler -- "1" GestionnaireHistorique
+ControlleurTelecommandeAnnuler -- "1" TelecommandeEtatEnum
+ControlleurTelecommandeAnnuler -- "1" MessageTelecommandeEnum
+
+ControlleurTelecommandeDefinir -- "1" GestionnaireHistorique
+ControlleurTelecommandeDefinir -- "1" MessageTelecommandeEnum
+ControlleurTelecommandeDefinir -- "1" InstructionEnum
+ControlleurTelecommandeDefinir -- "1" TypeElement
+
+ControlleurTelecommandeRelierElement -- "1" GestionnaireHistorique
+ControlleurTelecommandeRelierElement -- "1" MessageTelecommandeEnum
+ControlleurTelecommandeRelierElement -- "1" InstructionEnum
+ControlleurTelecommandeRelierElement -- "1" TypeElement
+
+
+ControlleurTelecommandeSuppimerElement -- "1" MessageTelecommandeEnum
+ControlleurTelecommandeSuppimerElement -- "1" InstructionEnum
+ControlleurTelecommandeSuppimerElement -- "1" TypeElement
+
+ControlleurUndo -- "1" GestionnaireHistorique
+ControlleurUndo -- "1" TelecommandeEtatEnum
+
+ControlleurTelecommande -- "1" Board
+ControlleurTelecommande -- "*" Menu
+
+
+
+@enduml

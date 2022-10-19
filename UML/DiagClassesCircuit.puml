@@ -1,0 +1,266 @@
+@startuml
+enum TypeElement {
+    Entree = "Entree"
+    Sortie = "Sortie"
+    Porte = "Porte"
+}
+
+class Circuit {
+    -hashmap<String, Element> entrees
+    -hashmap<String, Element> sorties
+    -hashmap<String, Element> portes
+    -Array[][] tableVerite
+    +getEntrees()
+    +getSorties()
+    +getPortes()
+    +getTableVerite()
+    +genererNouveauCircuit()
+    +genererTableVerite()
+}
+
+abstract class Element {
+    -String id
+    -ArrayList<Element> sources
+    -ArrayList<Element> sorties
+    -TypeElement type
+    -int qteSources
+    +getId()
+    +getSources()
+    +getSorties()
+    +getSignal()
+    +getType()
+    +setSignal()
+    +getQteSourcesRequired()
+}
+
+class EntreeCircuit {
+    -Bool signal
+    -String nom
+    +getNom()
+    +setNom()
+}
+
+class SortieCircuit {
+    -Bool signal
+    -String nom
+    +getNom()
+    +setNom()
+}
+
+class PorteLogique {
+    -Bool signal
+    -int qteSourcesRequired
+    +calculerSignal()
+    +{override} setSignal()
+    +{override} getSignal()
+}
+
+class And {
+    -{override} calculerSignal()
+}
+
+class Not {
+    -{override} calculerSignal()
+}
+
+class Or {
+    -{override} calculerSignal()
+}
+
+class EditeurCircuit {
+    +ajouter(Element e)
+    +supprimer(Element e)
+    +connecter(Element e1, Element e2)
+    +deconnecter(Element e1, Element e2)
+    +modifierNomElem(Element e, TypeElement type, String nom)
+}
+
+class ConstructeurElements {
+    -String entree = "Entree"
+    -String sortie = "Sortie"
+    -String and = "And"
+    -String or = "Or"
+    -String not = "Not"
+
+    +construireElem(String id, String type): Element
+}
+
+class ValidateurCircuit {
+	+maximumPortesAtteint(int qtePortes)
+	+maximumEntreesSortiesAtteint(int qteElements)
+	+estDernierEntreeOuSortie(int qteElements)
+	+estConnexionValide(Element elem)
+	+estNomValide(String nom)
+	+estNomExistant(TypeElement type, HashMap<String, Element> list, String nom)
+	+estCircuitValide(Circuit circuit)
+
+}
+
+class ControlleurCircuit {
+	-Circuit circuit;
+    -EditeurCircuit editeur;
+    -ConstructeurElements constructeur;
+    -InverseurInstruction inverseur;
+    -InstructionSet inverse;
+
+	+charger(ArrayList<Instruction> instructions): InstructionSet
+	+getEntrees(): HashMap<String, Element>
+	+getSorties(): HashMap<String, Element>
+	+getPortes(): HashMap<String, Element>
+	+Boolean[][] getTableVeriteIncomplete(): Boolean[][]
+	+Boolean[][] getTableVeriteComplete(): Boolean[][]
+	+int getNbrElemTableEntrees(): int
+	+int getNbrElemTableSorties(): int
+	+int getNbrElemTablePortes(): int
+	-findElem(String id, TypeElement type): Element
+	-getTable(TypeElement type): HashMap<String, Element>
+}
+
+class InverseurInstruction {
+	public InstructionSet inverserAjouter(Element e)
+	public InstructionSet inverserSupprimer(Element e)
+	public InstructionSet inverserRelier(Element e1, Element e2)
+	public InstructionSet inverserDeconnecter(Element e1, Element e2)
+	public InstructionSet inverserDefinir(Element e)
+}
+
+class Instruction {
+	-InstructionEnum typeInstruction
+    -String identification
+    -String identification2
+    -String nom
+    -TypeElement typeElement
+    -TypeElement typeElement2
+
+	+estAjouter(): boolean
+	+estSupprimer(): boolean
+	+InstructionEnum getInstruction()
+	+getNom(): String
+	+getIdentification(): String
+	+getIdentification2(): String
+	+getTypeElement(): TypeElement
+	+getTypeElement2(): TypeElement
+	+setInstruction(InstructionEnum ie)
+    +setNom(String nom)
+    +setIdentification(String identification)
+    +setIdentification2(String identification2)
+    +setTypeElement(TypeElement te)
+    +setTypeElement2(TypeElement te)
+	+toString(): String
+}
+
+enum InstructionEnum {
+    AJOUTER,
+    SUPPRIMER,
+    DEFINIR,
+    RELIER,
+    DECONNECTER,
+}
+
+class InstructionSet{
+	+InstructionSet getListe(): this()
+}
+
+class InverseurInstruction {
+	public InstructionSet inverserAjouter(Element e)
+	public InstructionSet inverserSupprimer(Element e)
+	public InstructionSet inverserRelier(Element e1, Element e2)
+	public InstructionSet inverserDeconnecter(Element e1, Element e2)
+	public InstructionSet inverserDefinir(Element e)
+}
+
+class Instruction {
+	-InstructionEnum typeInstruction
+    -String identification
+    -String identification2
+    -String nom
+    -TypeElement typeElement
+    -TypeElement typeElement2
+
+	+estAjouter(): boolean
+	+estSupprimer(): boolean
+	+InstructionEnum getInstruction()
+	+getNom(): String
+	+getIdentification(): String
+	+getIdentification2(): String
+	+getTypeElement(): TypeElement
+	+getTypeElement2(): TypeElement
+	+setInstruction(InstructionEnum ie)
+    +setNom(String nom)
+    +setIdentification(String identification)
+    +setIdentification2(String identification2)
+    +setTypeElement(TypeElement te)
+    +setTypeElement2(TypeElement te)
+	+toString(): String
+}
+
+enum InstructionEnum {
+    AJOUTER,
+    SUPPRIMER,
+    DEFINIR,
+    RELIER,
+    DECONNECTER,
+}
+
+class InstructionSet{
+	+InstructionSet getListe(): this()
+}
+
+abstract class Commande {
+     -InstructionSet instructionSet
+     -InstructionSet inverse
+     -ControlleurCircuit controleurCircuit
+
+     +InstructionSet getInverse(): InstructionSet
+     +execute(): Boolean
+}
+
+class AjouterCommande {
+    +execute(): Boolean
+}
+
+class DefinirCommande {
+    +execute(): Boolean
+}
+
+class RelierCommande {
+    +execute(): Boolean
+}
+
+class SupprimerCommande {
+    +execute(): Boolean
+}
+
+class InterfaceGraphique {}
+
+Element <- "*"Element
+Element <|-- EntreeCircuit
+Element <|-- SortieCircuit
+Element <|-- PorteLogique
+TypeElement <- Element
+PorteLogique <|-- And
+PorteLogique <|-- Not
+PorteLogique <|-- Or
+Circuit ->"*"Element
+
+ControlleurCircuit -> "1"EditeurCircuit
+ControlleurCircuit -> "1"ConstructeurElements
+ControlleurCircuit -> "1"Circuit
+ControlleurCircuit -> "1"InverseurInstruction
+ControlleurCircuit -> "1"ValidateurCircuit
+ControlleurCircuit -> "1"InstructionSet
+ControlleurCircuit -> "1"ValidateurCircuit
+ControlleurCircuit ..> Instruction
+
+InstructionSet ..> Instruction
+Instruction -> InstructionEnum
+Commande ->"1" ControlleurCircuit
+Telecommande -->"..*" Commande
+Telecommande ->"1" ControlleurCircuit
+
+AjouterCommande  --|> Commande
+DefinirCommande --|> Commande
+RelierCommande --|> Commande
+SupprimerCommande --|> Commande
+
+@enduml

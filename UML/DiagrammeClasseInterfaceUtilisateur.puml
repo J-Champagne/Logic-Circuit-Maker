@@ -1,0 +1,232 @@
+@startuml
+title Circuit logique (Interface utilisateur)
+center footer project #1 - class diagram
+
+
+
+
+class Application{
+  + enregister() : void
+  + enregistrerXMI() : void
+  + chargerCircuit() : void
+  + fermerCircuit(): void
+  - ajouterExtension(nomFichier : File) : File
+}
+
+
+class Commande{
+ + execute()
+}
+
+
+class AjouterCommande {
+ + execute()
+}
+
+class SupprimerCommande {
+ + execute()
+}
+
+class DefinirCommande {
+ + execute()
+}
+
+class RelierCommande {
+ + execute()
+}
+
+Commande <|-- AjouterCommande
+Commande <|-- SupprimerCommande
+Commande <|-- DefinirCommande
+Commande <|-- RelierCommande
+
+
+
+
+
+class Circuit{
+}
+
+
+
+class Board {
+ + init() : void
+}
+
+
+Interface Observateur {
+ +actualiser(o : Observateur)
+}
+
+
+Interface Observable {
+ +ajouterObservateur(o : Observateur)
+ +supprimerObservateur(o Observateur)
+ + notifierObservateur()
+}
+
+
+
+class AffichageCircuit {
+ + afficher()
+ + miseAJour(EnumEtatEdition)
+}
+
+
+class Edition {
+ - etat : EnumEtatEdition
+ + ecrire() : void
+ +ajouterObservateur(o : Observateur)
+ +supprimerObservateur(o : Observateur)
+ +notifierObservateur()
+}
+
+class EditeurSujet {
+  + getInstructions() : ArrayList<Instruction>
+  + charger(_listeInstruction : ArrayList<Instruction>)
+}
+
+class Code {
+ + editer(): void
+}
+
+class outil {
+ + selectionner() : void
+}
+
+class Compilateur {
+ + compiler() : void
+}
+
+class Inspecteur {
+ + Editer()
+}
+
+
+
+class Element {
+ + ajouter()
+ + supprimer()
+}
+
+
+
+
+
+class Expression {
+ + interpreter() : void
+}
+
+Interface EditionStrategie {
+ + ecrire() : void
+}
+
+
+class PositionCurseur {
+
+}
+
+
+
+
+
+class ExpressionGraphique{
+ + interpreter() : void
+}
+
+class ExpressionTexte{
+ + interpreter() : void
+}
+
+class EditionStrategieGraphique{
+ + ecrire() : void
+}
+
+class EditionStrategieTexte{
+ + ecrire() : void
+}
+
+class TableVerite {
+  +actualiser(o : Observateur)
+}
+
+
+
+
+class Menu{
+ selectionner() : EnumChoix
+}
+
+class EcrireFichier{
+  + {static} sauvegarder(fichierDeSauvegarde : File, liste : ArrayList<Instruction>) : String
+  + {static} genererString(liste : ArrayList<Instruction>) : String
+}
+
+class LectureFichier{
+  + {static} lire(fichierAOuvrir : File) : ArrayList<Instruction>
+  + {static} lireJSON(code : String) : ArrayList<Instruction>
+  + {static} genererInstruction(instructionJSON : JSONObject) : Instruction
+}
+
+Enum EnumChoix {
+ NOUVEAU
+ OUVRIR
+ SAUVEGARDER
+ QUITTER
+ EXPORTER_CIRCUIT
+ EXPORTER_TABLE_VERITE
+ ANNULER
+ REFAIRE
+ ANNULER_TOUT
+}
+
+Board --> ConfigurationSingleton
+Observable "0" ->"*" Observateur
+
+Observateur <|.. AffichageCircuit
+
+Application --> Board
+Application -> Circuit
+
+Application -- EcrireFichier
+Application -- LectureFichier
+
+Board *-- "1" Edition
+Board *-- "1" Menu
+Board *-- "1" AffichageCircuit
+Board *-- "1" TableVerite
+
+
+
+EditeurSujet o-- EditionStrategie
+EditeurSujet o-- PositionCurseur : observe
+AffichageCircuit o-- Expression
+
+Expression <|-- ExpressionGraphique
+Expression <|-- ExpressionTexte
+
+EditionStrategie <|.. EditionStrategieGraphique
+EditionStrategie <|.. EditionStrategieTexte
+
+EditeurSujet o- AffichageCircuit : observe
+Edition --> EditeurSujet
+Observable <|.. EditeurSujet
+
+
+Observateur <|... Compilateur
+Observateur <|... PositionCurseur
+Observateur <|.. TableVerite
+
+
+EditionStrategieTexte o-- Code
+EditeurSujet o-- Compilateur : observe
+EditionStrategieTexte o-- outil
+
+TableVerite -o EditeurSujet : observe
+
+EditionStrategieGraphique o-- Inspecteur
+EditionStrategieGraphique o-- Element
+
+
+Menu --> EnumChoix
+@enduml

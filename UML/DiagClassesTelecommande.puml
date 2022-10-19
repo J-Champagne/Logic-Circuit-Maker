@@ -1,0 +1,306 @@
+@startuml
+
+class Telecommande{
+- JButton nouveauFichierBouton
+- JButton ouvrirFichierBouton
+- JButton enregistrefichierBouton
+- JButton entreeBouton
+- JButton etBouton
+- JButton ouBouton
+- JButton nonBouton
+- JButton sortieBouton
+- JButton porteCustum1Bouton
+- JButton porteCustum2Bouton
+- JButton undoBouton
+- JButton annulerBouton
+- JButton redoBouton
+- JButton supprimerBouton
+- JButton relierBouton
+- JButton definirBouton
+- JButton afficherBouton
+- boolean estModifier 
++ getControleurCircuit() : ControlleurCircuit
++ getSujetEditeur() : Telecommande
++ getInstructions() : ArrayList<Instruction>
++ initialiser()
++ executeCommand(comm : Commande) : boolean
+- intialiseCosoleConnection()
+- intialiseHistorique()
++ initialiseConsoleElement()
++ initialiseDefinir()
+- initialiserBouton()
++ actionPerformed(e : ActionEvent)
++ ajouterObservateur(o : Observateur)
++ supprimerObservateur(o : Observateur)
++ notifierObservateur()
++ getState() : TelecommandeEtatEnum
++ setState(state : TelecommandeEtatEnum)
++ setEntrees(entrees : HashMap<String, Element>)
++ setSorties(sorties : HashMap<String, Element>)
++ setPortes(portes : HashMap<String, Element>)
++ getSorties() : HashMap<String, Element>
++ getCircuit() : ControlleurCircuit
++ getBody() : Body
++ getEntreeCircuitMap() : HashMap<String, Element>
++ getSortieCircuitMap() : HashMap<String, Element>
++ getPorteCircuitMap() : HashMap<String, Element>
++ init()
++ getPortes() : HashMap<String, Element>
++ getEntree() : HashMap<String, Element>
++ getSauvegarde() : InstructionSet
++ ajouterListener(board : Board)
++ getEstModifier() : boolean
++ setEstModifier(modifier : boolean)
++ gestionID() : GestionID
++ getConstructeurCommandes() : ConstructeurCommandes
+}
+
+class Body{
++ getBoutonNouveauFichier() : BoutonCommande
++ getBoutonEnregistrerFichier() : BoutonCommande
++ getBoutonOuvrirFichier() : BoutonCommande
++ getElementEntree() : BoutonCommande
++ getBoutonPorteEt() : BoutonCommande
++ getBoutonPorteOu() : BoutonCommande
++ getBoutonPorteNon() : BoutonCommande
++ getBoutonElementSortie() : BoutonCommande
++ getBoutonUndo() : BoutonCommande
++ getBoutonCancel() : BoutonCommande
++ getBoutonRedo() : BoutonCommande
++ getBoutonAfficher() : BoutonCommande
++ getBoutonSupprimer() : BoutonCommande
++ getBoutonRelier() : BoutonCommande
++ getBoutonDefinir() : BoutonCommande
++ getDefinirJTextArea() : JTextArea
++ getDefinirNom() : String
++ viderDefinirNom()
++ getSpecial1Bouton() : BoutonCommande
++ getSpecial2Bouton() : BoutonCommande
++ getExtraireCircuit() : BoutonCommande
++ getExtraireTableVerite() : BoutonCommande
++ getMouseElement() : JList<String>
++ afficherMessageValidation(str : String)
++ afficherMessageErreur(str : String)
++ rafraichirConsole(entree : HashMap<String, Element>, sortie : HashMap<String, Element>, porte : HashMap<String, Element>)
++ getElementCourant() : String
++ getConnectionCourantEntree() : String
++ getConnectionCourantSortie() : String
++ getConnectionCourantEntreeIndex() : int
++ getConnectionCourantSortieIndex() : int
++ getEstConnection() : boolean
+}
+
+class BodyConsole{
+- String elementCircuitCourant
+- String connectionCourantConsoleEntree
+- int connectionCourantconsoleEntreeIndex
+- String connectionCourantConsoleSortie
+- int connectionCourantConsoleSortieIndex
+- JList<String> listeElementCircuit
+- JList<String> listeConnectionEntree
+- JList<String> listeConnectionSortie
+- DefaultListModel<String> modelElementCircuit
+- DefaultListModel<String> modelConnectionEntree
+- DefaultListModel<String> modelConnectionSortie
+- boolean estConnection
++ calculConnectionPossible() : ArrayList<String>
++ getBoutonSupprimer() : BoutonCommande
++ getBoutonRelier() : BoutonCommande
++ getlisteEntree() : JList<String>
++ getElementCourantConsole() : String
++ getConnectionCourantConsoleEntree() : String
++ getConnectionCourantConsoleSortie() : String
++ getConnectionCourantConsoleEntreeeIndex() : int
++ getConnectionCourantConsoleSortieIndex() : int
++ getEstConnection() : boolean
++ setMode(entreeMap : HashMap<String, Element>, sortieMap : HashMap<String, Element>, porteMap : HashMap<String, Element>, )
+}
+
+class BodyDefinir{
+- JTextArea definirNom
++ getDefinirBouton() : BoutonCommande
++ getDefinirNomTexte() : String
++ getViderNomTexte()
++ getDefinirNomJTextArea() : JTextArea
+}
+
+class BodyEcran{
+- JLabel message
+- JPanel messagePanel
++ validation(str : String)
++ erreur(str : String)
+}
+
+class BodyExtraction{
++ getCircuit() : BoutonCommande
++ getTableVerite() : BoutonCommande
+}
+
+class BodyHistorique{
++ getUndo() : BoutonCommande
++ getCancel() : BoutonCommande
++ getRedo() : BoutonCommande
++ getAfficher() : BoutonCommande
+}
+
+class BodyPorte{
++ getEntree() : BoutonCommande
++ getSortie() : BoutonCommande
++ getEt() : BoutonCommande
++ getOu() : BoutonCommande
++ getNon() : BoutonCommande
+}
+
+class BodyPorteSpecialise{
++ getSpecial1Bouton() : BoutonCommande
++ getSpecial2Bouton() : BoutonCommande
+}
+
+class BodySauvegarde{
++ getNouveau() : BoutonCommande
++ getEnregistrer() : BoutonCommande
++ getOuvrir() : BoutonCommande
+}
+
+class BoutonCommande{
+- selectImage() : String
+}
+
+class FenetreHistorique{
+- JList<String> undo
+- DefaultListModel<String> modelUndo
+- JList<String> redo
+- DefaultListModel<String> modelRedo
++ update() 
+}
+
+class Foot{}
+
+class GestionID{
+- boolean[] listeEntre
+- boolean[] listeSortie
+- boolean[] listePorte
++ getEntreID() : int
++ getSortieID() : int
++ getPorteID() : int
++ mettreElementDisponible(instruction : Instruction)
++ vider()
++ mettreElementIndisponible(instruction : Instruction)
+}
+
+class Head{}
+
+class Historique{
+- Stack<T> pileUndo
+- Stack<T> pileRedo
++ ajouter(e : T)
++ undo() : T
++ redo() : T
++ pushRedo(elem : T)
++ pushUndo(elem : T)
++ clearRedo()
++ clearUndo()
++ reset()
++ undoEmpty() : boolean
++ redoEmpty() : boolean
++ getEtatUndo() : ArrayList<String>
++ getEtatRedo() : ArrayList<String>
+}
+
+enum MessageTelecommandeEnum{
++ String message
+}
+
+interface Observable{
++ ajouterObservateur(observateur : Observateur)
++ supprimerObservateur(observateur : Observateur)
++ notifierObservateur()
++ getState() : TelecommandeEtatEnum
++ setState(state : TelecommandeEtatEnum)
+}
+
+interface Observateur{
++ update()
+}
+
+enum TelecommandeEtatEnum{
++ enum TelecommandeEtatEnum
+}
+
+class TitreLabel{}
+
+enum TypeBoutonCommandeEnum{
++ enum TypeboutonCommandeEnum
++ String type
+}
+
+class ControlleurCircuit{}
+
+class ConstructeurCommandes{}
+
+class Element{}
+
+class InstructionSet {}
+
+class Instruction {}
+
+class GestionnaireHistorique {
+- {static} GestionnaireHistorique instance
++ {static} getInstance() : GestionnaireHistorique
++ getHistorique() : Historique<InstructionSet>
++ ajouter(instructionSet : InstructionSet)
++ ajouterRedo(instructionSet : InstructionSet)
++ ajouterUndo(instructionSet : InstructionSet)
++ clearRedo(instructionSet : InstructionSet)
++ clearUndo(instructionSet : InstructionSet)
+}
+
+Telecommande -- "1" TelecommandeEtatEnum
+Telecommande -* Observateur
+Telecommande ..> Observable : implements
+Telecommande -- "1" Body : possède
+Telecommande -- "1" GestionID : possède
+Telecommande -- "1" InstructionSet : possède
+Telecommande -* "*" Instruction
+Telecommande -* Element
+Telecommande -- "1" Foot
+Telecommande -- "1" Head
+Telecommande -- "1" ControlleurCircuit
+Telecommande -- "1" GestionnaireHistorique
+Telecommande -- "1" ConstructeurCommandes
+
+Body -- "1" BodySauvegarde : possède
+Body -- "1" BodyPorte : possède
+Body -- "1" BodyHistorique : possède
+Body -- "1" BodyConsole : possède
+Body -- "1" BodyExtraction : possède
+Body -- "1" BodyEcran : possède
+Body -- "1" BodyDefinir : possède
+Body -- "1" BodyPorteSpecialise : possède
+BodyConsole -* "2" BoutonCommande : possède
+BodyDefinir -* "1" BoutonCommande : possède
+BodyExtraction -* "2" BoutonCommande : possède
+BodyHistorique -* "4" BoutonCommande : possède
+BodyPorte -* "5" BoutonCommande : possède
+BodyPorteSpecialise -* "2" BoutonCommande : possède
+BodySauvegarde -* "3" BoutonCommande : possède
+BoutonCommande -- "1" TypeBoutonCommandeEnum : possède
+BodyConsole -- MessageTelecommandeEnum
+BodyDefinir -- MessageTelecommandeEnum
+BodyPorte -- MessageTelecommandeEnum
+BodyPorte -- TitreLabel
+BodyDefinir -- TitreLabel
+BodyConsole -- TitreLabel
+
+FenetreHistorique ..> Observateur
+FenetreHistorique -- "1" Telecommande
+
+Foot -- MessageTelecommandeEnum
+Head -- MessageTelecommandeEnum
+Telecommande -- MessageTelecommandeEnum
+
+BoutonCommande -- TypeBoutonCommandeEnum
+
+Historique -* "2" InstructionSet
+GestionnaireHistorique -- "1" Historique
+@enduml

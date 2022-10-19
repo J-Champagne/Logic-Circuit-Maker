@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor Utilisateur as user
+participant ControlleurSauvegarder as CS
+participant "telecommande : Telecommande" as T
+participant EcrireFichier as EF
+participant "b : Body" as B
+
+user -> CS : enregistrer()
+activate CS
+CS -> CS : f1 : ajouterExtension(f1 : File)
+CS -> T : getSauvegarde()
+activate T
+T --> CS : is1 : InstructionSet
+CS -> EF : sauvegarder(is1 : InstructionSet, f1 : File)
+activate EF
+EF --> CS
+deactivate EF
+CS -> T : getBody()
+T --> CS : b : Body
+CS -> B : afficherMessageValidation(message : String)
+B --> CS
+CS -> T : setEstModifier(False : boolean)
+T --> CS
+deactivate T
+CS --> user : reponse : int
+deactivate CS
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+activate TableVerite
+
+TableVerite -> TableVerite : update()
+TableVerite -> "control : ControlleurCircuit" : getTableVeriteIncomplete()
+activate "control : ControlleurCircuit"
+
+"control : ControlleurCircuit" -> "c : Circuit" : genererSignalsEntrees()
+activate "c : Circuit"
+"control : ControlleurCircuit" <-- "c : Circuit"
+"control : ControlleurCircuit" -> "c : Circuit" : getTableVerite()
+"control : ControlleurCircuit" <-- "c : Circuit" : tableVerite : Boolean [][]
+deactivate "c : Circuit"
+
+TableVerite <-- "control : ControlleurCircuit" : tableVerite : Boolean [][]
+
+deactivate "control : ControlleurCircuit"
+
+TableVerite -> TableVerite : convertir(tableVerite)
+TableVerite -> TableVerite : rafraichirTableInterface()
+TableVerite -> "control : ControlleurCircuit" : getTableVeriteComplete()
+activate "control : ControlleurCircuit"
+
+"control : ControlleurCircuit" -> "c : Circuit" : genererTableVerite()
+activate "c : Circuit"
+"c : Circuit" -> "c : Circuit" : genererSignalsEntrees()
+group for [rangées de la table]
+group for [sorties du circuit]
+"c : Circuit" -> "c : Circuit" : trouverSignal(Element source)
+"c : Circuit" -> "e : Element" : getSignal()
+activate "e : Element"
+"c : Circuit" <-- "e : Element" : signal : Boolean
+deactivate "e : Element"
+end
+end
+"control : ControlleurCircuit" <-- "c : Circuit"
+"control : ControlleurCircuit" -> "c : Circuit" : getTableVerite()
+"control : ControlleurCircuit" <-- "c : Circuit" : tableVerite : Boolean [][]
+
+TableVerite <-- "control : ControlleurCircuit" : tableVerite : Boolean [][]
+
+deactivate "control : ControlleurCircuit"
+TableVerite <-- "control : ControlleurCircuit" : tableVerite : Boolean [][]
+TableVerite -> TableVerite : convertir(tableVerite)
+TableVerite -> TableVerite : rafraichirTableInterface()
+
+deactivate TableVerite
+
+@enduml
