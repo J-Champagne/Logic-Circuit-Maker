@@ -19,12 +19,17 @@ Is accompanied by a truth table corresponding to every output (True, False) poss
 6.Various errors messages to guide the user in making their boards
 
 ## Information
--This software was made as a within the context of an advance software engineering course at l'UQAM.
+-This software was made within the context of an advance software engineering course at l'UQAM.
 
--Various software design patterns () were implemented in the creation of this application.
+-Uses the Model-view-controller software pattern.
+
+-Various software design patterns (Factory, Command, Composite, Singleton, Strategy, Observer) 
+were implemented in the creation of this application.
 
 -Agile practices were also used throughout development, 
  meetings with the customer (teacher) were held every week in order to validate our progress.
+
+-Java 18 and the latest version of Junit 4.12 are required to run this software.
 
 ## Credit
 This project was made by a group of 4 people:
