@@ -8,17 +8,17 @@ Is accompanied by a truth table corresponding to every output (True, False) poss
 ![Alt text](Image.png)
 
 ## Features
-1.Visualise in real time the layout of your logic board
+1. Visualise in real time the layout of your logic board
 
-2.Easily add, remove, and connect various logic doors
+2. Easily add, remove, and connect various logic doors
 
-3.Generate a truth table with the click of a button
+3. Generate a truth table with the click of a button
 
-4.Undo or redo previous actions
+4. Undo or redo previous actions
 
-5.Save and load an existing logic board
+5. Save and load an existing logic board
 
-6.Various errors messages to guide the user in making their boards
+6. Various errors messages to guide the user in making their boards
 
 ## Information
 -This software was made within the context of an advance software engineering course at l'UQAM.
