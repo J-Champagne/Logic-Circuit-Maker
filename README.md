@@ -5,7 +5,7 @@ This java software is a graphical tool for making logic circuit boards.
 A logic circuit is a series of logic gates (And, Or, Not) connected with each other.
 Is accompanied by a truth table corresponding to every output (True, False) possible.
 
-![Alt text](Image.png "a title")
+![Alt text](Image.png)
 
 ## Features
 1.Visualise in real time the layout of your logic board
