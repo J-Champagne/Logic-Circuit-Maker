@@ -26,8 +26,10 @@ Is accompanied by a truth table corresponding to every output (True, False) poss
 -Various software design patterns (Factory, Command, Composite, Singleton, Strategy, Observer) 
 were implemented in the creation of this application.
 
--Agile practices were also used throughout development, 
- meetings with the customer (teacher) were held every week in order to validate our progress.
+-Agile practices were used throughout development, 
+ meetings with the product owner (teacher) were held every week in order to validate our progress.
+
+-Maven was used to automate our builds.
 
 -Java 18 and the latest version of Junit 4.12 are required to run this software.
 
